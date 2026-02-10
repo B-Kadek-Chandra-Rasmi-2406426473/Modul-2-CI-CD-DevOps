@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 @Repository
 public class ProductRepository {
@@ -20,8 +21,11 @@ public class ProductRepository {
         return product;
     }
 
-    public boolean delete(String id) {
-        return productData.removeIf(product -> product.getProductId().equals(id));
+    public void delete(String id) {
+        boolean wasRemoved = productData.removeIf(p -> p.getProductId().equals(id));
+        if (!wasRemoved) {
+            throw new NoSuchElementException("Product ID " + id + " not found");
+        }
     }
 
     public Iterator<Product> findAll() {
