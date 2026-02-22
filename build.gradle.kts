@@ -54,7 +54,11 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
-    dependsOn(tasks. test)
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
 
 tasks.register<Test>("unitTest") {
@@ -83,6 +87,6 @@ sonar {
     properties {
         property("sonar.projectKey", "B-Kadek-Chandra-Rasmi-2406426473_Modul-2-CI-CD-DevOps")
         property("sonar.organization", "b-kadek-chandra-rasmi-2406426473")
-        property("sonar.host.url", "https://sonarcloud.io/api/project_badges/measure?project=B-Kadek-Chandra-Rasmi-2406426473_Modul-2-CI-CD-DevOps&metric=alert_status")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
