@@ -3,6 +3,7 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.5.10"
     id("io.spring.dependency-management") version "1.1.7"
+    id ("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -76,4 +77,12 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "B-Kadek-Chandra-Rasmi-2406426473_Modul-2-CI-CD-DevOps")
+        property("sonar.organization", "b-kadek-chandra-rasmi-2406426473")
+        property("sonar.host.url", "https://sonarcloud.io/api/project_badges/measure?project=B-Kadek-Chandra-Rasmi-2406426473_Modul-2-CI-CD-DevOps&metric=alert_status")
+    }
 }
