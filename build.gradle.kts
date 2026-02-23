@@ -88,7 +88,5 @@ sonar {
         property("sonar.projectKey", "B-Kadek-Chandra-Rasmi-2406426473_Modul-2-CI-CD-DevOps")
         property("sonar.organization", "b-kadek-chandra-rasmi-2406426473")
         property("sonar.host.url", "https://sonarcloud.io")
-
-        property("sonar.sources", "src/main/java,src/main/resources")
     }
 }
