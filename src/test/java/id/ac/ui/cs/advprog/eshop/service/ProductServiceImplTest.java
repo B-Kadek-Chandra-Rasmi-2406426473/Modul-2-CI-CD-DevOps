@@ -44,7 +44,7 @@ class ProductServiceImplTest {
 
     @Test
     void testDelete() {
-        productService.delete("123");
+        productService.deleteProductById("123");
         verify(productRepository, times(1)).delete("123");
     }
 
