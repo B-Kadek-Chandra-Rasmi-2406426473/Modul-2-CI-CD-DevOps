@@ -26,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(String id) {
-        productRepository.delete(id);
+    public void deleteProductById(String productId) {
+        productRepository.delete(productId);
     }
 
     @Override
@@ -39,10 +39,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(String id) {
-        Product product = productRepository.findById(id);
+    public Product findById(String productId) {
+        Product product = productRepository.findById(productId);
         if (product == null) {
-            throw new NoSuchElementException("Product with ID " + id + " does not exist");
+            throw new NoSuchElementException("Product with ID " + productId + " does not exist");
         }
         return product;
     }
