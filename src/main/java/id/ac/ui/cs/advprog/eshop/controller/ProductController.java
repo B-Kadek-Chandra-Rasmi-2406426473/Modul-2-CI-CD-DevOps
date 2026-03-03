@@ -15,11 +15,6 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService service;
-//
-//    @Autowired
-//    public ProductController(ProductService service) {
-//        this.service = service;
-//    }
 
     @GetMapping("/create")
     public String createProductPage (Model model) {
@@ -54,13 +49,6 @@ public class ProductController {
         service.update(product);
         return "redirect:list";
     }
-
-//    @GetMapping("/delete/{id}")
-//    public String deleteProduct(@PathVariable String id) {
-//        service.delete(id);
-//        return "redirect:/product/list";
-//    }
-
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam("productId") String productId) {
