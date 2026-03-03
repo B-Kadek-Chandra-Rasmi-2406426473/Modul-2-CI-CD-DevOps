@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.NoSuchElementException;
 
-import java.util.UUID;
-import java.util.NoSuchElementException;
-
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();

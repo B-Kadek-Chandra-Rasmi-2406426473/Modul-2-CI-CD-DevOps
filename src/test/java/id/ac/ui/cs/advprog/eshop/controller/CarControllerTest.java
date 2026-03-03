@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.controller;
-
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import id.ac.ui.cs.advprog.eshop.service.CarServiceImpl;
+import id.ac.ui.cs.advprog.eshop.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.*;
 class CarControllerTest {
 
     @Mock
-    private CarServiceImpl carService;
+    private CarService carService;
 
     @Mock
     private Model model;
