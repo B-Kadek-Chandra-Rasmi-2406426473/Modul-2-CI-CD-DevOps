@@ -32,6 +32,22 @@ Menurut saya tidak ada ukuran pasti berapa banyak unit test yang dibutuhkan untu
 
 </details>
 
+<details>
+  <summary>Module 2</summary>
+
+1.List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them. 
+
+Selama mengerjakan latihan dan modul ini, saya menemukan dan memperbaiki beberapa isu terkait fungsionalitas dan kualitas kode (code maintainability), antara lain:
+- Maintainability Code Smell, yaitu Penggunaan Field Injection (Dideteksi oleh SonarCloud). SonarCloud mendeteksi penggunaan anotasi @Autowired yang diletakkan langsung pada field variabel (misalnya pada dependensi ProductService) sebagai masalah maintainability. Pendekatan Field Injection ini tidak disarankan karena membuat kelas tersebut menyembunyikan dependensinya dan menjadi sulit untuk diinisialisasi secara independen saat pembuatan unit test.
+Strategi Penyelesaian: Saya me-refactor kode tersebut dengan mengubah pendekatannya menjadi Constructor Injection. Saya mengubah field dependensi menjadi private final, lalu membuat constructor untuk kelas tersebut dan menyematkan anotasi @Autowired pada constructor. Hal ini membuat dependensi menjadi wajib diisi saat objek dibuat dan jauh lebih aman serta mudah untuk proses testing.
+
+- Bug Fungsionalitas, berupa inkonsistensi case sensitivity pada template. Aplikasi mengalami Internal Server Error (500) saat di-deploy ke lingkungan berbasis Linux (Render) karena adanya perbedaan huruf kapital antara return string pada Controller (example: "createProduct") dan nama file HTML aslinya ("CreateProduct.html").
+Strategi Penyelesaian: Saya menganalisis log error dari server Render, kemudian menyamakan return value pada method di ProductController agar sama persis secara case-sensitive dengan nama file di folder templates. Selain itu, saya juga memperbarui assertion pada ProductControllerTest agar proses otomatisasi build dan tes di pipeline CI/CD dapat kembali berjalan sukses.
+ 
+2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons!
+Ya, menurut saya implementasi pipeline saat ini sudah memenuhi definisi dari Continuous Integration (CI) dan Continuous Deployment (CD). Pada aspek Continuous Integration, otomatisasi telah berjalan secara konsisten melalui GitHub Actions setiap kali ada push kode baru ke repositori. Workflow CI ini bertugas ganda, yaitu mengeksekusi unit test menggunakan Gradle untuk memverifikasi fungsionalitas, serta melakukan analisis kualitas dan keamanan kode menggunakan SonarCloud secara terpusat. Lalu, untuk aspek Continuous Deployment, repositori GitHub telah dihubungkan langsung dengan platform PaaS (Render). Dengan mengaktifkan konfigurasi Auto-Deploy On Commit, setiap perubahan kode yang terintegrasi ke branch utama (main) akan langsung memicu proses build dan deploy ke server secara otomatis. Rangkaian automasi ini berhasil menghilangkan pekerjaan deploy manual dari developer, sehingga mempercepat siklus rilis dan meminimalisir risiko human error.
+</details>
+
 
 <details>
   <summary>Module 3</summary>
