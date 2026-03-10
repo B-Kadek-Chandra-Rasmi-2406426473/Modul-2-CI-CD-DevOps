@@ -1,12 +1,15 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Map;
 
 @Getter
 public class Payment {
     String id;
     String method;
+    @Setter
     String status;
     Map<String, String> paymentData;
     Order order;
@@ -38,9 +41,5 @@ public class Payment {
         String deliveryFee = paymentData.get("deliveryFee");
         return address != null && !address.isEmpty() &&
                 deliveryFee != null && !deliveryFee.isEmpty();
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
