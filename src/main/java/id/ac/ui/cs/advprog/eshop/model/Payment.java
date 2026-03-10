@@ -18,23 +18,25 @@ public class Payment {
         this.paymentData = paymentData;
 
         if ("VOUCHER".equals(method)) {
-            String voucher = paymentData.get("voucherCode");
-            if (voucher != null && voucher.length() == 16 && voucher.startsWith("ESHOP") &&
-                    voucher.chars().filter(Character::isDigit).count() == 8) {
-                this.status = "SUCCESS";
-            } else {
-                this.status = "REJECTED";
-            }
+            this.status = validateVoucher() ? "SUCCESS" : "REJECTED";
         } else if ("CASH_ON_DELIVERY".equals(method)) {
-            String address = paymentData.get("address");
-            String deliveryFee = paymentData.get("deliveryFee");
-            if (address == null || address.isEmpty() || deliveryFee == null || deliveryFee.isEmpty()) {
-                this.status = "REJECTED";
-            } else {
-                this.status = "SUCCESS";
-            }
+            this.status = validateCod() ? "SUCCESS" : "REJECTED";
         } else {
             this.status = "REJECTED";
         }
+    }
+
+    private boolean validateVoucher() {
+        String voucher = paymentData.get("voucherCode");
+        return voucher != null && voucher.length() == 16 &&
+                voucher.startsWith("ESHOP") &&
+                voucher.chars().filter(Character::isDigit).count() == 8;
+    }
+
+    private boolean validateCod() {
+        String address = paymentData.get("address");
+        String deliveryFee = paymentData.get("deliveryFee");
+        return address != null && !address.isEmpty() &&
+                deliveryFee != null && !deliveryFee.isEmpty();
     }
 }
