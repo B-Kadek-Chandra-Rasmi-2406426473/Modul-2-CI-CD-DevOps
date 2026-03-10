@@ -108,4 +108,71 @@ class PaymentControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/payment/payment-123"));
     }
+
+    @Test
+    void testPaymentDetailForm() throws Exception {
+        mockMvc.perform(get("/payment/detail"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("PaymentDetailForm"));
+    }
+
+    @Test
+    void testPaymentDetailSubmit() throws Exception {
+        mockMvc.perform(post("/payment/detail")
+                        .param("paymentId", "payment-123"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/detail/payment-123"));
+    }
+
+    @Test
+    void testPaymentDetailPage() throws Exception {
+        Mockito.when(paymentService.getPayment("payment-123")).thenReturn(payment);
+        mockMvc.perform(get("/payment/detail/payment-123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("PaymentReceipt"))
+                .andExpect(model().attributeExists("payment"));
+    }
+
+    @Test
+    void testPaymentAdminList() throws Exception {
+        List<Payment> list = new ArrayList<>();
+        list.add(payment);
+        Mockito.when(paymentService.getAllPayments()).thenReturn(list);
+
+        mockMvc.perform(get("/payment/admin/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("PaymentAdminList"))
+                .andExpect(model().attributeExists("payments"));
+    }
+
+    @Test
+    void testPaymentAdminDetail() throws Exception {
+        Mockito.when(paymentService.getPayment("payment-123")).thenReturn(payment);
+
+        mockMvc.perform(get("/payment/admin/detail/payment-123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("PaymentAdminDetail"))
+                .andExpect(model().attributeExists("payment"));
+    }
+
+    @Test
+    void testPaymentAdminSetStatusSuccess() throws Exception {
+        Mockito.when(paymentService.getPayment("payment-123")).thenReturn(payment);
+        Mockito.when(paymentService.setStatus(any(Payment.class), anyString())).thenReturn(payment);
+
+        mockMvc.perform(post("/payment/admin/set-status/payment-123")
+                        .param("status", "SUCCESS"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/admin/list"));
+    }
+
+    @Test
+    void testPaymentAdminSetStatusNotFound() throws Exception {
+        Mockito.when(paymentService.getPayment("invalid-id")).thenReturn(null);
+
+        mockMvc.perform(post("/payment/admin/set-status/invalid-id")
+                        .param("status", "SUCCESS"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/admin/list"));
+    }
 }

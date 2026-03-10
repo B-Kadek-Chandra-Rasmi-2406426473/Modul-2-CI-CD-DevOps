@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -48,5 +49,46 @@ public class PaymentController {
         Payment payment = paymentService.getPayment(paymentId);
         model.addAttribute("payment", payment);
         return "PaymentReceipt";
+    }
+
+    @GetMapping("/detail")
+    public String paymentDetailForm() {
+        return "PaymentDetailForm";
+    }
+
+    @PostMapping("/detail")
+    public String paymentDetailSubmit(@RequestParam("paymentId") String paymentId) {
+        return "redirect:/payment/detail/" + paymentId;
+    }
+
+    @GetMapping("/detail/{paymentId}")
+    public String paymentDetailPage(@PathVariable("paymentId") String paymentId, Model model) {
+        Payment payment = paymentService.getPayment(paymentId);
+        model.addAttribute("payment", payment);
+        return "PaymentReceipt";
+    }
+
+    @GetMapping("/admin/list")
+    public String paymentAdminList(Model model) {
+        List<Payment> payments = paymentService.getAllPayments();
+        model.addAttribute("payments", payments);
+        return "PaymentAdminList";
+    }
+
+    @GetMapping("/admin/detail/{paymentId}")
+    public String paymentAdminDetail(@PathVariable("paymentId") String paymentId, Model model) {
+        Payment payment = paymentService.getPayment(paymentId);
+        model.addAttribute("payment", payment);
+        return "PaymentAdminDetail";
+    }
+
+    @PostMapping("/admin/set-status/{paymentId}")
+    public String setPaymentStatus(@PathVariable("paymentId") String paymentId,
+                                   @RequestParam("status") String status) {
+        Payment payment = paymentService.getPayment(paymentId);
+        if (payment != null) {
+            paymentService.setStatus(payment, status);
+        }
+        return "redirect:/payment/admin/list";
     }
 }
