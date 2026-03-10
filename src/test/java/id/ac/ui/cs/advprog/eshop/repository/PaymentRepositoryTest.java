@@ -102,4 +102,11 @@ class PaymentRepositoryTest {
         List<Payment> paymentList = paymentRepository.findAll();
         assertEquals(2, paymentList.size());
     }
+
+    @Test
+    void testFindAllIfEmpty() {
+        PaymentRepository emptyRepository = new PaymentRepository();
+        List<Payment> paymentList = emptyRepository.findAll();
+        assertTrue(paymentList.isEmpty());
+    }
 }
