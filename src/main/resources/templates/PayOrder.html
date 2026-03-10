@@ -11,7 +11,8 @@
     <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
     <p><strong>Total Items:</strong> <span th:text="${order.products.size()}"></span></p>
 
-    <form th:action="@{/order/pay/{id}(id=${order.id})}" method="post">
+    <form th:action="@{/payment/create}" method="post">
+        <input type="hidden" name="orderId" th:value="${order.id}">
 
         <div class="form-group mt-4">
             <label for="methodInput">Select Payment Method</label>
