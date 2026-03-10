@@ -90,4 +90,13 @@ class OrderControllerTest {
                 .andExpect(view().name("PayOrder"))
                 .andExpect(model().attributeExists("order"));
     }
+
+    @Test
+    void testPayOrderPost() throws Exception {
+        mockMvc.perform(post("/order/pay/order-123")
+                        .param("method", "VOUCHER")
+                        .param("data1", "ESHOP1234ABC5678"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/order/history"));
+    }
 }

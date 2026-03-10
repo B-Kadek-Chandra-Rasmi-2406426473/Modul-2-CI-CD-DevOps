@@ -77,4 +77,42 @@ class PaymentTest {
         Payment payment = new Payment("payment-6", order, "VOUCHER", paymentData);
         assertEquals("REJECTED", payment.getStatus());
     }
+
+    @Test
+    void testCreatePaymentVoucherInvalidPrefix() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "SALAH1234ABC5678");
+        Payment payment = new Payment("payment-7", order, "VOUCHER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentVoucherNull() {
+        Map<String, String> paymentData = new HashMap<>();
+        Payment payment = new Payment("payment-8", order, "VOUCHER", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentCodAddressNull() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("deliveryFee", "10000");
+        Payment payment = new Payment("payment-9", order, "CASH_ON_DELIVERY", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentCodDeliveryFeeNull() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("address", "Jalan Raya");
+        Payment payment = new Payment("payment-10", order, "CASH_ON_DELIVERY", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentUnknownMethod() {
+        Map<String, String> paymentData = new HashMap<>();
+        Payment payment = new Payment("payment-11", order, "PAYPAL", paymentData);
+        assertEquals("REJECTED", payment.getStatus());
+    }
 }

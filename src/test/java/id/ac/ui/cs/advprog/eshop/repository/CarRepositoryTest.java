@@ -84,4 +84,48 @@ class CarRepositoryTest {
         carRepository.delete(car.getCarId());
         assertNull(carRepository.findById(car.getCarId()));
     }
+
+    @Test
+    void testCreateCarWithExistingId() {
+        Car car = new Car();
+        car.setCarId("existing-id-123");
+        car.setCarName("Avanza");
+
+        Car result = carRepository.create(car);
+        assertEquals("existing-id-123", result.getCarId());
+    }
+
+    @Test
+    void testFindByIdMultipleCars() {
+        Car car1 = new Car();
+        car1.setCarId("id-1");
+        carRepository.create(car1);
+
+        Car car2 = new Car();
+        car2.setCarId("id-2");
+        carRepository.create(car2);
+
+        Car foundCar = carRepository.findById("id-2");
+        assertNotNull(foundCar);
+        assertEquals("id-2", foundCar.getCarId());
+    }
+
+    @Test
+    void testUpdateMultipleCars() {
+        Car car1 = new Car();
+        car1.setCarId("id-1");
+        carRepository.create(car1);
+
+        Car car2 = new Car();
+        car2.setCarId("id-2");
+        carRepository.create(car2);
+
+        Car updatedCar = new Car();
+        updatedCar.setCarName("Pajero Sport");
+
+        Car result = carRepository.update("id-2", updatedCar);
+        assertNotNull(result);
+        assertEquals("id-2", result.getCarId());
+        assertEquals("Pajero Sport", result.getCarName());
+    }
 }

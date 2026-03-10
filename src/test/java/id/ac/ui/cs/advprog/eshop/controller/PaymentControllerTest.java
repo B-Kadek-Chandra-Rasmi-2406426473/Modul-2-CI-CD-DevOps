@@ -80,4 +80,32 @@ class PaymentControllerTest {
                 .andExpect(view().name("PaymentReceipt"))
                 .andExpect(model().attributeExists("payment"));
     }
+
+    @Test
+    void testCreatePaymentPostCOD() throws Exception {
+        Mockito.when(orderService.findById(anyString())).thenReturn(order);
+        Mockito.when(paymentService.addPayment(any(), anyString(), any())).thenReturn(payment);
+        Mockito.when(paymentService.setStatus(any(), anyString())).thenReturn(payment);
+
+        mockMvc.perform(post("/payment/create")
+                        .param("orderId", "order-123")
+                        .param("method", "CASH_ON_DELIVERY")
+                        .param("data1", "Jalan Margonda Raya")
+                        .param("data2", "15000"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/payment-123"));
+    }
+
+    @Test
+    void testCreatePaymentPostUnknownMethod() throws Exception {
+        Mockito.when(orderService.findById(anyString())).thenReturn(order);
+        Mockito.when(paymentService.addPayment(any(), anyString(), any())).thenReturn(payment);
+        Mockito.when(paymentService.setStatus(any(), anyString())).thenReturn(payment);
+
+        mockMvc.perform(post("/payment/create")
+                        .param("orderId", "order-123")
+                        .param("method", "UNKNOWN_METHOD"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/payment-123"));
+    }
 }
