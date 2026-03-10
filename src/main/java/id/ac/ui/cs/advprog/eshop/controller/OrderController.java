@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/order")
@@ -32,7 +33,7 @@ public class OrderController {
         dummyProduct.setProductQuantity(1);
         products.add(dummyProduct);
 
-        Order newOrder = new Order(null, products, System.currentTimeMillis(), author);
+        Order newOrder = new Order(UUID.randomUUID().toString(), products, System.currentTimeMillis(), author);
         orderService.createOrder(newOrder);
 
         return "redirect:/order/history";
