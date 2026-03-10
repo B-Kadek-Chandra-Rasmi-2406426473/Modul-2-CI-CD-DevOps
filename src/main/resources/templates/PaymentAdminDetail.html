@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Review Payment</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4">
+    <h3>Review Payment</h3>
+    <div class="card mt-3 mb-4 col-md-6">
+        <div class="card-body">
+            <h5 class="card-title">Payment ID: <span th:text="${payment.id}"></span></h5>
+            <p class="card-text"><strong>Method:</strong> <span th:text="${payment.method}"></span></p>
+            <p class="card-text"><strong>Current Status:</strong> <span th:text="${payment.status}"></span></p>
+        </div>
+    </div>
+
+    <h4>Update Status</h4>
+    <form th:action="@{/payment/admin/set-status/{id}(id=${payment.id})}" method="post">
+        <div class="form-group">
+            <select name="status" class="form-control col-4" required>
+                <option value="SUCCESS">Accept (SUCCESS)</option>
+                <option value="REJECTED">Reject (REJECTED)</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success mt-2">Update Status</button>
+        <a th:href="@{/payment/admin/list}" class="btn btn-secondary mt-2">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
