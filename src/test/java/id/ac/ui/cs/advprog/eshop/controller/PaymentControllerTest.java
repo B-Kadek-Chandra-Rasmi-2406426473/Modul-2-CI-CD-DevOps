@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,7 +42,18 @@ class PaymentControllerTest {
     @BeforeEach
     void setUp() {
         List<Product> products = new ArrayList<>();
+
+        Product product = new Product();
+        product.setProductId("prod-1");
+        product.setProductName("Test Product");
+        product.setProductQuantity(1);
+        products.add(product);
+
         order = new Order("order-123", products, 1708560000L, "Chandra");
+
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP1234ABC5678");
+
         payment = new Payment("payment-123", order, "VOUCHER", new HashMap<>());
     }
 
