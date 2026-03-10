@@ -39,4 +39,8 @@ public class Payment {
         return address != null && !address.isEmpty() &&
                 deliveryFee != null && !deliveryFee.isEmpty();
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
