@@ -12,5 +12,29 @@ public class Payment {
     Order order;
 
     public Payment(String id, Order order, String method, Map<String, String> paymentData) {
+        this.id = id;
+        this.order = order;
+        this.method = method;
+        this.paymentData = paymentData;
+
+        if ("VOUCHER".equals(method)) {
+            String voucher = paymentData.get("voucherCode");
+            if (voucher != null && voucher.length() == 16 && voucher.startsWith("ESHOP") &&
+                    voucher.chars().filter(Character::isDigit).count() == 8) {
+                this.status = "SUCCESS";
+            } else {
+                this.status = "REJECTED";
+            }
+        } else if ("CASH_ON_DELIVERY".equals(method)) {
+            String address = paymentData.get("address");
+            String deliveryFee = paymentData.get("deliveryFee");
+            if (address == null || address.isEmpty() || deliveryFee == null || deliveryFee.isEmpty()) {
+                this.status = "REJECTED";
+            } else {
+                this.status = "SUCCESS";
+            }
+        } else {
+            this.status = "REJECTED";
+        }
     }
 }
