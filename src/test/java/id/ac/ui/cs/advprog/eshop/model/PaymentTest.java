@@ -72,7 +72,6 @@ class PaymentTest {
 
     @Test
     void testCreatePaymentVoucherRejectedIfContainsNotExactly8Digits() {
-        // Unhappy: 16 karakter, diawali ESHOP, tapi angkanya cuma 7 (sisanya huruf)
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP1234567ABCD");
         Payment payment = new Payment("payment-6", order, "VOUCHER", paymentData);
